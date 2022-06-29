@@ -6,6 +6,8 @@ var app = new Vue({
     el: '#app',
     data: {
       currentElement: 0,
+      sliderAutoplay: null,
+      interval: 3000,
     //   QUI CI SONO GLI OGGETTI IMG DA METTERE IN SLIDER
       slides: [
         {
@@ -46,13 +48,27 @@ var app = new Vue({
           },
         // CLIC PER ANDARE INDIETRO NEGLI [i]
         previousElement() {
-            if (this.currentElement > 0) {
+            if (this.currentElement !== 0) {
               this.currentElement--;
             } else {
               this.currentElement = this.slides.length - 1;
             }
           },
+
+        showThisElement(thisIndex) {
+            this.currentElement = thisIndex;
+        },
+        //COMANDO STOP AUTOPLAY HOVER MOUSE
+        stopAutoPlay() {
+            clearInterval(this.showNextDeafult);
+        },
+        startAutoplay() {
+            this.showNextDeafult = setInterval(this.nextElement, 1000);
+        }
       
     },
+    mounted() {
+      this.showNextDeafult = setInterval(this.nextElement, this.interval);
+    }
   });
 
